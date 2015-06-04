@@ -47,7 +47,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-success">Cadastrar</button>
+                                <button type="submit" id="btn-enviar" class="btn btn-success">Cadastrar</button>
                             </div>
                         </div>
                     </form></div>
@@ -58,7 +58,11 @@
                 </div>
             </div>
         </div>
-
+        <script>
+            $('#btn-enviar').click(function(){
+                alert('Você clicou no botão')
+            })
+            </script>
     </body>
 </html>
 
