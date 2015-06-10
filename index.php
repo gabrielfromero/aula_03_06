@@ -1,29 +1,13 @@
 <?php
 
-echo '<pre>';
-var_dump($_GET);
-echo '</pre>';
+include ('comum.php');
 
-echo 'teste';
+$con = novaConexao();
 
-$con = new mysqli('127.0.0.1', 'root', '', 'lp22015');
-
-if (isset($_GET['ativo'])) {
-    $ativo = 1;
-} else {
-    $ativo = 0;
-}
-
-$sql = $con->prepare('INSERT INTO pessoa (nome, endereco, sexo, ativo) VALUES (?,?,?,?);');
-$sql->bind_param('sssi', $_GET['nome'], $_GET['endereco'], $_GET['sexo'], $ativo);
-
-if ($sql->execute()) {
-    echo '<h2>Sucesso<h2>';
-} else {
-    echo '<pre>';
-    var_dump($sql->error_list);
-    echo '</pre>';
-}
+$sql = $con->prepare('select * from pessoa');
+$sql->execute();
+$sql->bind_result($id, $nome, $endereco, $genero, $ativo);
+include_once ('comum.php');
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +25,7 @@ if ($sql->execute()) {
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <form class="form-horizontal" method="GET" action="index.php">
+                    <form class="form-horizontal" method="GET" action="incluir.php">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Nome</label>
                             <div class="col-sm-10">
@@ -77,12 +61,41 @@ if ($sql->execute()) {
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button class="btn btn-success" id="btn-enviar" type="submit" >Inserir</button>
+                                <?php if (isset($_GET['msg'])) { ?>
+                                
+                                <span><?php echo $_GET['msg']; ?></span>
+                                <?php } ?>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="col-md-6">
                     <h5>Listagem de pessoas</h5>
+                    <ul>
+                        <?php
+                        while ($sql->fetch()) {
+                            if ($genero == 'm') {
+                                $genero = 'Masculino';
+                            } else if ($genero == 'f') {
+                                $genero = 'Feminino';
+                            }
+                            if ($ativo == 1) {
+                                $ativo = 'Sim';
+                            } else if ($ativo == 0) {
+                                $ativo = 'Não';
+                            }
+                            ?>
+                            <li>
+                                <?php echo $nome; ?> <a class="btn btn-danger">[Deletar]</a>
+                                <ul>
+                                    <li>Endereco: <?php echo $endereco; ?> </li>
+                                    <li>Sexo: <?php echo $genero; ?> </li>
+                                    <li>Ativo: <?php echo $ativo; ?> </li>
+                                </ul>
+                            </li> 
+                        <?php } ?>
+
+                    </ul>
                 </div>
             </div>
         </div>
@@ -90,7 +103,9 @@ if ($sql->execute()) {
             $('#btn-enviar').click(function () {
                 var valido = true;
                 if ($('#input-nome').val() == '') {
-                    valido = false;
+                    valido = false;.+
+                    
+                    
                     alert('Preencha o nome');
                 }
                 if ($('#input-endereco').val() == '') {
@@ -104,6 +119,9 @@ if ($sql->execute()) {
 
                 return valido;
             })
+            function confirmaDeletar(){
+                confirm('Deseja deletar?');
+            }
         </script>
     </body>
 </html>
