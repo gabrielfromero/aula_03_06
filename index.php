@@ -1,5 +1,4 @@
 <?php
-
 include ('comum.php');
 
 $con = novaConexao();
@@ -14,6 +13,7 @@ include_once ('comum.php');
 <html>
     <head>
         <title>Cadastro de pessoas</title>
+
         <meta charset="ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
@@ -22,7 +22,27 @@ include_once ('comum.php');
         <script src="js/bootstrap.js" type="text/javascript"></script>        
     </head>
     <body>
-        <div class="container">
+        <div class="container" 
+             style="background-color: #269abc">
+            
+            <div>
+                <div class= col-md-6>
+                    <img class="form-inline" src="img/logo.jpg">
+                </div>
+                <div class= col-md-5>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="exampleInputName2">Campo de Busca</label>
+                            <input type="text" style="margin: 7px" class="form-control" placeholder="Digite sua busca">
+                            
+                        </div>
+                        
+                        <button type="submit" class="btn btn-default">Buscar</button>
+                    </form>
+                </div>
+                <div class= col-md-4></div>
+
+            </div>
             <div class="row">
                 <div class="col-md-6">
                     <form class="form-horizontal" method="GET" action="incluir.php">
@@ -62,8 +82,8 @@ include_once ('comum.php');
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button class="btn btn-success" id="btn-enviar" type="submit" >Inserir</button>
                                 <?php if (isset($_GET['msg'])) { ?>
-                                
-                                <span><?php echo $_GET['msg']; ?></span>
+
+                                    <span><?php echo $_GET['msg']; ?></span>
                                 <?php } ?>
                             </div>
                         </div>
@@ -103,10 +123,8 @@ include_once ('comum.php');
             $('#btn-enviar').click(function () {
                 var valido = true;
                 if ($('#input-nome').val() == '') {
-                    valido = false;.+
-                    
-                    
-                    alert('Preencha o nome');
+                    valido = false; .+
+                            alert('Preencha o nome');
                 }
                 if ($('#input-endereco').val() == '') {
                     valido = false;
@@ -119,7 +137,7 @@ include_once ('comum.php');
 
                 return valido;
             })
-            function confirmaDeletar(){
+            function confirmaDeletar() {
                 confirm('Deseja deletar?');
             }
         </script>
